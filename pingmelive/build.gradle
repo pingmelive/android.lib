@@ -19,8 +19,8 @@ android {
 
 
         // ValidateTor Library Info
-        libVersionCode = 3
-        libVersionName = '3.0.1'
+        libVersionCode = 4
+        libVersionName = '3.0.2'
     }
 
 

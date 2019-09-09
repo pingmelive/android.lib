@@ -79,12 +79,8 @@ public final class pingMeLive {
     private static boolean isInBackground = true;
 
 
-    /**
-     * Installs pingMeLive on the application using the default error activity.
-     *
-     * @param context Context to use for obtaining the ApplicationContext. Must not be null.
-     */
-    @RestrictTo(RestrictTo.Scope.LIBRARY)
+
+
     public static void install(@Nullable final Context context) {
         try {
             if (context == null) {
