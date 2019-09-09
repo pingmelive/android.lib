@@ -396,7 +396,7 @@ public final class pingMeLive {
      *
      * @return the current configuration
      */
-    @RestrictTo(RestrictTo.Scope.LIBRARY)
+
     @NonNull
     public static pingMeConfig getConfig() {
         return config;
@@ -408,7 +408,7 @@ public final class pingMeLive {
      *
      * @param config the configuration to use
      */
-    @RestrictTo(RestrictTo.Scope.LIBRARY)
+
     public static void setConfig(@NonNull pingMeConfig config) {
         pingMeLive.config = config;
     }
