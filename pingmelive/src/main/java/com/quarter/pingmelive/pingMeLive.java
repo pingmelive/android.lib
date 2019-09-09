@@ -49,9 +49,9 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 
-public final class CustomActivityOnCrash {
+public final class pingMeLive {
 
-    private final static String TAG = "CustomActivityOnCrash";
+    private final static String TAG = "pingMeLive";
 
     //Extras passed to the error activity
     private static final String EXTRA_CONFIG = "cat.ereza.customactivityoncrash.EXTRA_CONFIG";
@@ -80,7 +80,7 @@ public final class CustomActivityOnCrash {
 
 
     /**
-     * Installs CustomActivityOnCrash on the application using the default error activity.
+     * Installs pingMeLive on the application using the default error activity.
      *
      * @param context Context to use for obtaining the ApplicationContext. Must not be null.
      */
@@ -94,10 +94,10 @@ public final class CustomActivityOnCrash {
                 final Thread.UncaughtExceptionHandler oldHandler = Thread.getDefaultUncaughtExceptionHandler();
 
                 if (oldHandler != null && oldHandler.getClass().getName().startsWith(CAOC_HANDLER_PACKAGE_NAME)) {
-                    Log.e(TAG, "CustomActivityOnCrash was already installed, doing nothing!");
+                    Log.e(TAG, "pingMeLive was already installed, doing nothing!");
                 } else {
                     if (oldHandler != null && !oldHandler.getClass().getName().startsWith(DEFAULT_HANDLER_PACKAGE_NAME)) {
-                        Log.e(TAG, "IMPORTANT WARNING! You already have an UncaughtExceptionHandler, are you sure this is correct? If you use a custom UncaughtExceptionHandler, you must initialize it AFTER CustomActivityOnCrash! Installing anyway, but your original handler will not be called.");
+                        Log.e(TAG, "IMPORTANT WARNING! You already have an UncaughtExceptionHandler, are you sure this is correct? If you use a custom UncaughtExceptionHandler, you must initialize it AFTER pingMeLive! Installing anyway, but your original handler will not be called.");
                     }
 
                     application = (Application) context.getApplicationContext();
@@ -107,7 +107,7 @@ public final class CustomActivityOnCrash {
                         @Override
                         public void uncaughtException(Thread thread, final Throwable throwable) {
                             if (config.isEnabled()) {
-                                Log.e(TAG, "App has crashed, executing CustomActivityOnCrash's UncaughtExceptionHandler", throwable);
+                                Log.e(TAG, "App has crashed, executing pingMeLive's UncaughtExceptionHandler", throwable);
 
                                 if (hasCrashedInTheLastSeconds(application)) {
                                     Log.e(TAG, "App already crashed recently, not starting custom error activity because we could enter a restart loop. Are you sure that your app does not crash directly on init?", throwable);
@@ -250,10 +250,10 @@ public final class CustomActivityOnCrash {
                     });
                 }
 
-                Log.i(TAG, "CustomActivityOnCrash has been installed.");
+                Log.i(TAG, "pingMeLive has been installed.");
             }
         } catch (Throwable t) {
-            Log.e(TAG, "An unknown error occurred while installing CustomActivityOnCrash, it may not have been properly initialized. Please report this as a bug if needed.", t);
+            Log.e(TAG, "An unknown error occurred while installing pingMeLive, it may not have been properly initialized. Please report this as a bug if needed.", t);
         }
     }
 
@@ -265,7 +265,7 @@ public final class CustomActivityOnCrash {
      */
     @Nullable
     public static String getStackTraceFromIntent(@NonNull Intent intent) {
-        return intent.getStringExtra(CustomActivityOnCrash.EXTRA_STACK_TRACE);
+        return intent.getStringExtra(pingMeLive.EXTRA_STACK_TRACE);
     }
 
     /**
@@ -276,7 +276,7 @@ public final class CustomActivityOnCrash {
      */
     @Nullable
     public static pingMeConfig getConfigFromIntent(@NonNull Intent intent) {
-        pingMeConfig config = (pingMeConfig) intent.getSerializableExtra(CustomActivityOnCrash.EXTRA_CONFIG);
+        pingMeConfig config = (pingMeConfig) intent.getSerializableExtra(pingMeLive.EXTRA_CONFIG);
         if (config.isLogErrorOnRestart()) {
             String stackTrace = getStackTraceFromIntent(intent);
             if (stackTrace != null) {
@@ -295,7 +295,7 @@ public final class CustomActivityOnCrash {
      */
     @Nullable
     public static String getActivityLogFromIntent(@NonNull Intent intent) {
-        return intent.getStringExtra(CustomActivityOnCrash.EXTRA_ACTIVITY_LOG);
+        return intent.getStringExtra(pingMeLive.EXTRA_ACTIVITY_LOG);
     }
 
     /**
@@ -414,7 +414,7 @@ public final class CustomActivityOnCrash {
      */
     @RestrictTo(RestrictTo.Scope.LIBRARY)
     public static void setConfig(@NonNull pingMeConfig config) {
-        CustomActivityOnCrash.config = config;
+        pingMeLive.config = config;
     }
 
     /**

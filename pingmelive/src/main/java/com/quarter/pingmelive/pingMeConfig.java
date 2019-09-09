@@ -53,7 +53,7 @@ public class pingMeConfig implements Serializable {
     private Integer errorDrawable = null;
     private Class<? extends Activity> errorActivityClass = null;
     private Class<? extends Activity> restartActivityClass = null;
-    private CustomActivityOnCrash.EventListener eventListener = null;
+    private pingMeLive.EventListener eventListener = null;
 
     @BackgroundMode
     public int getBackgroundMode() {
@@ -141,11 +141,11 @@ public class pingMeConfig implements Serializable {
     }
 
     @Nullable
-    public CustomActivityOnCrash.EventListener getEventListener() {
+    public pingMeLive.EventListener getEventListener() {
         return eventListener;
     }
 
-    public void setEventListener(@Nullable CustomActivityOnCrash.EventListener eventListener) {
+    public void setEventListener(@Nullable pingMeLive.EventListener eventListener) {
         this.eventListener = eventListener;
     }
 
@@ -155,7 +155,7 @@ public class pingMeConfig implements Serializable {
         @NonNull
         public static Builder create() {
             Builder builder = new Builder();
-            pingMeConfig currentConfig = CustomActivityOnCrash.getConfig();
+            pingMeConfig currentConfig = pingMeLive.getConfig();
 
             pingMeConfig config = new pingMeConfig();
             config.backgroundMode = currentConfig.backgroundMode;
@@ -189,8 +189,8 @@ public class pingMeConfig implements Serializable {
         }
 
         /**
-         * Defines if CustomActivityOnCrash crash interception mechanism is enabled.
-         * Set it to true if you want CustomActivityOnCrash to intercept crashes,
+         * Defines if pingMeLive crash interception mechanism is enabled.
+         * Set it to true if you want pingMeLive to intercept crashes,
          * false if you want them to be treated as if the library was not installed.
          * The default is true.
          */
@@ -306,7 +306,7 @@ public class pingMeConfig implements Serializable {
          * @throws IllegalArgumentException if the eventListener is an inner or anonymous class
          */
         @NonNull
-        public Builder eventListener(@Nullable CustomActivityOnCrash.EventListener eventListener) {
+        public Builder eventListener(@Nullable pingMeLive.EventListener eventListener) {
             if (eventListener != null && eventListener.getClass().getEnclosingClass() != null && !Modifier.isStatic(eventListener.getClass().getModifiers())) {
                 throw new IllegalArgumentException("The event listener cannot be an inner or anonymous class, because it will need to be serialized. Change it to a class of its own, or make it a static inner class.");
             } else {
@@ -321,7 +321,7 @@ public class pingMeConfig implements Serializable {
         }
 
         public void apply() {
-            CustomActivityOnCrash.setConfig(config);
+            pingMeLive.setConfig(config);
         }
     }
 

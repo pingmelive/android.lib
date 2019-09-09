@@ -59,7 +59,7 @@ public final class DefaultErrorActivity extends AppCompatActivity {
         //It is recommended that you follow this logic if implementing a custom error activity.
         Button restartButton = findViewById(R.id.customactivityoncrash_error_activity_restart_button);
 
-        final pingMeConfig config = CustomActivityOnCrash.getConfigFromIntent(getIntent());
+        final pingMeConfig config = pingMeLive.getConfigFromIntent(getIntent());
 
         if (config == null) {
             //This should never happen - Just finish the activity to avoid a recursive crash.
@@ -72,14 +72,14 @@ public final class DefaultErrorActivity extends AppCompatActivity {
             restartButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    CustomActivityOnCrash.restartApplication(DefaultErrorActivity.this, config);
+                    pingMeLive.restartApplication(DefaultErrorActivity.this, config);
                 }
             });
         } else {
             restartButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    CustomActivityOnCrash.closeApplication(DefaultErrorActivity.this, config);
+                    pingMeLive.closeApplication(DefaultErrorActivity.this, config);
                 }
             });
         }
@@ -94,7 +94,7 @@ public final class DefaultErrorActivity extends AppCompatActivity {
 
                     AlertDialog dialog = new AlertDialog.Builder(DefaultErrorActivity.this)
                             .setTitle(R.string.customactivityoncrash_error_activity_error_details_title)
-                            .setMessage(CustomActivityOnCrash.getAllErrorDetailsFromIntent(DefaultErrorActivity.this, getIntent()))
+                            .setMessage(pingMeLive.getAllErrorDetailsFromIntent(DefaultErrorActivity.this, getIntent()))
                             .setPositiveButton(R.string.customactivityoncrash_error_activity_error_details_close, null)
                             .setNeutralButton(R.string.customactivityoncrash_error_activity_error_details_copy,
                                     new DialogInterface.OnClickListener() {
@@ -123,7 +123,7 @@ public final class DefaultErrorActivity extends AppCompatActivity {
     }
 
     private void copyErrorToClipboard() {
-        String errorInformation = CustomActivityOnCrash.getAllErrorDetailsFromIntent(DefaultErrorActivity.this, getIntent());
+        String errorInformation = pingMeLive.getAllErrorDetailsFromIntent(DefaultErrorActivity.this, getIntent());
 
         ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 
