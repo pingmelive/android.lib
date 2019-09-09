@@ -11,6 +11,6 @@ public class sampleActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sample);
-        Toast.makeText(getApplicationContext(),"Blank Activity",Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(),"Blank Activity!",Toast.LENGTH_LONG).show();
     }
 }
