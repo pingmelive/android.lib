@@ -1,0 +1,12 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.quarter.pingmelive" >
+
+    <application>
+
+        <activity
+            android:name=".DefaultErrorActivity"
+            android:process=":error_activity" />
+
+    </application>
+
+</manifest>

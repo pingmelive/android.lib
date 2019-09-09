@@ -1,0 +1,2 @@
+include ':app', ':pingmelive'
+rootProject.name='PingMeLive'
