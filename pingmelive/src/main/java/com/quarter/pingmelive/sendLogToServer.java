@@ -12,15 +12,31 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.IBinder;
 import android.util.Log;
+import android.view.View;
 
 import androidx.core.app.NotificationCompat;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class sendLogToServer extends Service {
 
 
     ArrayList<pingModel> list;
+    DBHelper dbHelper;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -35,17 +51,17 @@ public class sendLogToServer extends Service {
         Log.e("Service","Local service started");
 
 
+        dbHelper = DBHelper.getInstance(getApplicationContext());
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             startForeground(("localtoServerSync".hashCode()),getServiceNotification());
         }
-//        if(internetIsConnected())
-//        {
-        DBHelper dbHelper = new DBHelper(getApplicationContext());
+
             list = dbHelper.getPendingEvents();
             if(list.size()>0)
             {
                 for(int i = 0 ; i < list.size() ; i++) {
-                    sync_local_to_server(list.get(i), getApplicationContext());
+                    sync_local_to_server(list.get(i));
                 }
             }
             else
@@ -54,16 +70,77 @@ public class sendLogToServer extends Service {
             }
 
             stopSelf();
-        Log.e("Service","Local service stopped");
 
 
     }
 
-    public void sync_local_to_server(pingModel sync_modal, Context context)
-    {
-        Log.e("Data","Sent to server");
-    }
+    public void sync_local_to_server(final pingModel pingModel) {
 
+        Log.e("Data","Sending to server");
+
+        String url = "https://billse.app/ping";
+
+            StringRequest strReq = new StringRequest(Request.Method.POST,
+                    url, new Response.Listener<String>() {
+
+                @Override
+                public void onResponse(String response) {
+
+                    Log.e("Data","Sent to server");
+                    dbHelper.removeEvent(pingModel.getData_id());
+
+                }
+            }, new Response.ErrorListener() {
+
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    if(error!=null && error.getMessage()!=null) {
+                        Log.e("TAG", "Error sending the log " + error.getMessage());
+                    }
+                    else
+                    {
+                        Log.e("TAG", "Error sending the log");
+                    }
+                }
+            }) {
+
+                @Override
+                public byte[] getBody() throws AuthFailureError {
+
+                    JSONObject jsonObject = new JSONObject();
+                    try {
+
+                        jsonObject.put("device_info", pingModel.getData_device_info());
+                        jsonObject.put("error_info", pingModel.getData_error_info());
+                        jsonObject.put("error_trace", pingModel.getData_error_trace());
+                        jsonObject.put("error_time", pingModel.getData_date_time());
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    String str = jsonObject.toString();
+
+                    return str.getBytes();
+                }
+
+                ;
+
+                @Override
+                public Map<String, String> getHeaders() {
+                    Map<String, String>  headers = new HashMap<>();
+                    headers.put("Content-Type","application/json");
+                    return headers;
+                }
+
+                @Override
+                public String getBodyContentType() {
+                    return "application/json; charset=utf-8";
+                }
+            };
+            RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+            requestQueue.add(strReq);
+
+    }
 
     @Override
     public void onDestroy() {

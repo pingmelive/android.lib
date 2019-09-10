@@ -168,6 +168,15 @@ public class DBHelper extends SQLiteOpenHelper {
         sendData();
     }
 
+    public void removeEvent(int id) {
+        // get writable database as we want to write data
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        db.execSQL("DELETE FROM "+DATA+" WHERE "+DATA_ID+" = '"+id+"'");
+        // close db connection
+        //db.close();
+    }
+
     public void sendData()
     {
         Log.e("pingMeLive","Sending error log to server (if any)");
