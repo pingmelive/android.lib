@@ -85,6 +85,8 @@ public final class pingMeLive {
             if (context == null) {
                 Log.e(TAG, "Install failed: context is null!");
             } else {
+
+                dbHelper = DBHelper.getInstance(context);
                 //INSTALL!
                 final Thread.UncaughtExceptionHandler oldHandler = Thread.getDefaultUncaughtExceptionHandler();
 
@@ -143,7 +145,7 @@ public final class pingMeLive {
 //                                            stackTraceString = stackTraceString.substring(0, MAX_STACK_TRACE_SIZE - disclaimer.length()) + disclaimer;
 //                                        }
 
-                                        dbHelper = DBHelper.getInstance(context);
+
                                         pingModel pingModel = new pingModel();
                                         pingModel.setData_error_info(throwable.getMessage());
                                         pingModel.setData_error_trace(stackTraceString);
