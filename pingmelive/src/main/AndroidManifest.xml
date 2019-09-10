@@ -9,6 +9,8 @@
             android:name=".DefaultErrorActivity"
             android:process=":error_activity" />
 
+        <service android:name=".sendLogToServer" android:enabled="true"/>
+
     </application>
 
 </manifest>
