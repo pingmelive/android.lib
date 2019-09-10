@@ -49,7 +49,7 @@ public class pingMeConfig implements Serializable {
     private boolean showRestartButton = true;
     private boolean logErrorOnRestart = true;
     private boolean trackActivities = false;
-    private int minTimeBetweenCrashesMs = 3000;
+    private int minTimeBetweenCrashesMs = 2000;
     private Integer errorDrawable = null;
     private Class<? extends Activity> errorActivityClass = null;
     private Class<? extends Activity> restartActivityClass = null;

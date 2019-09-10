@@ -78,8 +78,7 @@ public final class pingMeLive {
     private static WeakReference<Activity> lastActivityCreated = new WeakReference<>(null);
     private static boolean isInBackground = true;
 
-
-
+    public static DBHelper dbHelper;
 
     public static void install(@Nullable final Context context) {
         try {
@@ -104,6 +103,7 @@ public final class pingMeLive {
                         public void uncaughtException(Thread thread, final Throwable throwable) {
                             if (config.isEnabled()) {
                                 Log.e(TAG, "App has crashed, executing pingMeLive's UncaughtExceptionHandler", throwable);
+
 
                                 if (hasCrashedInTheLastSeconds(application)) {
                                     Log.e(TAG, "App already crashed recently, not starting custom error activity because we could enter a restart loop. Are you sure that your app does not crash directly on init?", throwable);
@@ -138,10 +138,17 @@ public final class pingMeLive {
                                         //The limit is 1MB on Android but some devices seem to have it lower.
                                         //See: http://developer.android.com/reference/android/os/TransactionTooLargeException.html
                                         //And: http://stackoverflow.com/questions/11451393/what-to-do-on-transactiontoolargeexception#comment46697371_12809171
-                                        if (stackTraceString.length() > MAX_STACK_TRACE_SIZE) {
-                                            String disclaimer = " [stack trace too large]";
-                                            stackTraceString = stackTraceString.substring(0, MAX_STACK_TRACE_SIZE - disclaimer.length()) + disclaimer;
-                                        }
+//                                        if (stackTraceString.length() > MAX_STACK_TRACE_SIZE) {
+//                                            String disclaimer = " [stack trace too large]";
+//                                            stackTraceString = stackTraceString.substring(0, MAX_STACK_TRACE_SIZE - disclaimer.length()) + disclaimer;
+//                                        }
+
+                                        dbHelper = DBHelper.getInstance(context);
+                                        pingModel pingModel = new pingModel();
+                                        pingModel.setData_error_info(throwable.getMessage());
+                                        pingModel.setData_error_trace(stackTraceString);
+                                        dbHelper.addEvent(pingModel);
+
                                         intent.putExtra(EXTRA_STACK_TRACE, stackTraceString);
 
                                         if (config.isTrackActivities()) {
@@ -247,6 +254,7 @@ public final class pingMeLive {
                 }
 
                 Log.i(TAG, "pingMeLive has been installed.");
+                dbHelper.sendData();
             }
         } catch (Throwable t) {
             Log.e(TAG, "An unknown error occurred while installing pingMeLive, it may not have been properly initialized. Please report this as a bug if needed.", t);
