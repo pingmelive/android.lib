@@ -12,6 +12,7 @@ import android.text.format.DateFormat;
 import android.util.Log;
 
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
@@ -21,14 +22,14 @@ import java.util.Calendar;
 public class DBHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "errorData";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     private static final String DATA = "DATA";
-    private static final String DATA_ID = "DATA_ID";
-    private static final String DATA_DEVICE_INFO = "DATA_DEVICE_INFO";
-    private static final String DATA_ERROR_INFO = "DATA_ERROR_INFO";
-    private static final String DATA_ERROR_TRACE = "DATA_ERROR_TRACE";
-    private static final String DATA_DATE_TIME = "DATA_DATE_TIME";
+    private static final String ID = "ID";
+    private static final String GROUP_TITLE = "GROUP_TITLE";
+    private static final String MESSAGE = "MESSAGE";
+    private static final String DETAIL_MESSAGE = "DETAIL_MESSAGE";
+    private static final String EVENT_DATE_TIME = "EVENT_DATE_TIME";
 
     private static DBHelper mInstance = null;
     Context context;
@@ -51,11 +52,11 @@ public class DBHelper extends SQLiteOpenHelper {
 
         String DATA_TABLE =
                 "CREATE TABLE IF NOT EXISTS " + DATA + "(" +
-                        DATA_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                        DATA_DEVICE_INFO + " TEXT, " +
-                        DATA_ERROR_INFO + " TEXT, " +
-                        DATA_ERROR_TRACE + " TEXT, " +
-                        DATA_DATE_TIME + " TEXT)";
+                        ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        GROUP_TITLE + " TEXT, " +
+                        MESSAGE + " TEXT, " +
+                        DETAIL_MESSAGE + " TEXT, " +
+                        EVENT_DATE_TIME + " TEXT)";
 
         try {
             db.execSQL(DATA_TABLE);
@@ -137,11 +138,11 @@ public class DBHelper extends SQLiteOpenHelper {
                 do {
                     pingModel pingModel = new pingModel();
 
-                    pingModel.setData_id(cursor.getInt(cursor.getColumnIndex(DATA_ID)));
-                    pingModel.setData_device_info(cursor.getString(cursor.getColumnIndex(DATA_DEVICE_INFO)));
-                    pingModel.setData_error_info(cursor.getString(cursor.getColumnIndex(DATA_ERROR_INFO)));
-                    pingModel.setData_error_trace(cursor.getString(cursor.getColumnIndex(DATA_ERROR_TRACE)));
-                    pingModel.setData_date_time(cursor.getString(cursor.getColumnIndex(DATA_DATE_TIME)));
+                    pingModel.setId(cursor.getInt(cursor.getColumnIndex(ID)));
+                    pingModel.setGroupTitle(cursor.getString(cursor.getColumnIndex(GROUP_TITLE)));
+                    pingModel.setMessage(cursor.getString(cursor.getColumnIndex(MESSAGE)));
+                    pingModel.setDetailText(cursor.getString(cursor.getColumnIndex(DETAIL_MESSAGE)));
+                    pingModel.setEventDateTime(cursor.getString(cursor.getColumnIndex(EVENT_DATE_TIME)));
 
                     pingModels.add(pingModel);
                 } while (cursor.moveToNext());
@@ -157,13 +158,13 @@ public class DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
 
-        values.put(DATA_DEVICE_INFO,getDeviceInfo());
-        values.put(DATA_ERROR_INFO,pingModel.getData_error_info());
-        values.put(DATA_ERROR_TRACE,pingModel.getData_error_trace());
-        values.put(DATA_DATE_TIME,getDatetime("HH:mm:ss dd-MM-yyyy",0));
+        values.put(GROUP_TITLE,pingModel.getGroupTitle());
+        values.put(MESSAGE,pingModel.getMessage());
+        values.put(DETAIL_MESSAGE,pingModel.getDetailText());
+        values.put(EVENT_DATE_TIME,getDatetime("HH:mm:ss dd-MM-yyyy",0));
 
         db.insert(DATA,null,values);
-        Log.e("pingMeLive","New Error Event Added - "+pingModel.getData_error_info());
+        Log.e("pingMeLive","New Error Event Added - "+pingModel.getMessage());
         sendData();
     }
 
@@ -171,7 +172,7 @@ public class DBHelper extends SQLiteOpenHelper {
         // get writable database as we want to write data
         SQLiteDatabase db = this.getWritableDatabase();
 
-        db.execSQL("DELETE FROM "+DATA+" WHERE "+DATA_ID+" = '"+id+"'");
+        db.execSQL("DELETE FROM "+DATA+" WHERE "+ID+" = '"+id+"'");
         // close db connection
         //db.close();
     }
@@ -191,7 +192,7 @@ public class DBHelper extends SQLiteOpenHelper {
         }
     }
 
-    public String getDeviceInfo(){
+    public static JSONObject getDeviceInfo(){
 
         JSONObject device_info = new JSONObject();
         try
@@ -208,7 +209,7 @@ public class DBHelper extends SQLiteOpenHelper {
             e.printStackTrace();
         }
 
-        return device_info.toString();
+        return device_info;
     }
 
     public static String getTodayYestFromMilli(long msgTimeMillis) {
@@ -257,4 +258,21 @@ public class DBHelper extends SQLiteOpenHelper {
         return formatter.format(calendar.getTime());
     }
 
+    public static String getMessage(String message)
+    {
+        return "Version - "+BuildConfig.VERSION_NAME+"("+BuildConfig.VERSION_CODE+")\n"+message;
+    }
+
+    public static String getDetailedText(String text)
+    {
+        try {
+            JSONObject jsonObject = getDeviceInfo();
+            jsonObject.put("detailedText",text);
+            return  jsonObject.toString();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 }

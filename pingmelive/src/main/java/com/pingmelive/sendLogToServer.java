@@ -73,7 +73,7 @@ public class sendLogToServer extends Service {
 
     public void sync_local_to_server(final pingModel pingModel) {
 
-        Log.e("Data","Sending to server");
+        Log.e("pingMeLive","Sending to server "+pingModel.getMessage());
 
         String url = "http://pingmelive.com/event/push/";
 
@@ -84,7 +84,7 @@ public class sendLogToServer extends Service {
                 public void onResponse(String response) {
 
                     Log.e("Data","Sent to server");
-                    dbHelper.removeEvent(pingModel.getData_id());
+                    dbHelper.removeEvent(pingModel.getId());
 
                 }
             }, new Response.ErrorListener() {
@@ -107,10 +107,10 @@ public class sendLogToServer extends Service {
                     JSONObject jsonObject = new JSONObject();
                     try {
 
-                        jsonObject.put("device_info", pingModel.getData_device_info());
-                        jsonObject.put("error_info", pingModel.getData_error_info());
-                        jsonObject.put("error_trace", pingModel.getData_error_trace());
-                        jsonObject.put("error_time", pingModel.getData_date_time());
+                        jsonObject.put("groupTitle", pingModel.getGroupTitle());
+                        jsonObject.put("message", pingModel.getMessage());
+                        jsonObject.put("detailedText", pingModel.getDetailText());
+                        jsonObject.put("eventDateTime", pingModel.getEventDateTime());
 
                     } catch (JSONException e) {
                         e.printStackTrace();

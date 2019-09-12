@@ -2,49 +2,49 @@ package com.pingmelive;
 
 public class pingModel {
 
-    public int data_id = -1;
-    public String data_device_info = "";
-    public String data_error_info = "";
-    public String data_error_trace = "";
-    public String data_date_time = "";
+    public int id = -1;
+    public String groupTitle = "";
+    public String message = "";
+    public String detailText = "";
+    public String eventDateTime = "";
 
-    public int getData_id() {
-        return data_id;
+    public int getId() {
+        return id;
     }
 
-    public void setData_id(int data_id) {
-        this.data_id = data_id;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public String getData_device_info() {
-        return data_device_info;
+    public String getGroupTitle() {
+        return groupTitle;
     }
 
-    public void setData_device_info(String data_device_info) {
-        this.data_device_info = data_device_info;
+    public void setGroupTitle(String groupTitle) {
+        this.groupTitle = groupTitle;
     }
 
-    public String getData_error_info() {
-        return data_error_info;
+    public String getMessage() {
+        return message;
     }
 
-    public void setData_error_info(String data_error_info) {
-        this.data_error_info = data_error_info;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
-    public String getData_error_trace() {
-        return data_error_trace;
+    public String getDetailText() {
+        return detailText;
     }
 
-    public void setData_error_trace(String data_error_trace) {
-        this.data_error_trace = data_error_trace;
+    public void setDetailText(String detailText) {
+        this.detailText = detailText;
     }
 
-    public String getData_date_time() {
-        return data_date_time;
+    public String getEventDateTime() {
+        return eventDateTime;
     }
 
-    public void setData_date_time(String data_date_time) {
-        this.data_date_time = data_date_time;
+    public void setEventDateTime(String eventDateTime) {
+        this.eventDateTime = eventDateTime;
     }
 }

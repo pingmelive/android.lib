@@ -31,6 +31,9 @@ import java.util.Locale;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
+import static com.pingmelive.DBHelper.getDetailedText;
+import static com.pingmelive.DBHelper.getMessage;
+
 public final class pingMeLive {
 
     private final static String TAG = "pingMeLive";
@@ -62,11 +65,24 @@ public final class pingMeLive {
 
     public static DBHelper dbHelper;
 
-    public static void install(@Nullable final Context context) {
+    public static void install(@Nullable final Context context, final String errorGroupTitle, String APIKEY) {
         try {
             if (context == null) {
                 Log.e(TAG, "Install failed: context is null!");
             } else {
+
+
+                if(errorGroupTitle==null || errorGroupTitle.trim().length()<=0)
+                {
+                    Log.i(TAG, "errorGroupTitle needed check your application class");
+                    return;
+                }
+
+                if(APIKEY==null || APIKEY.trim().length()<=0)
+                {
+                    Log.i(TAG, "API KEY needed check your application class");
+                    return;
+                }
 
                 dbHelper = DBHelper.getInstance(context);
                 //INSTALL!
@@ -128,10 +144,10 @@ public final class pingMeLive {
 //                                        }
 
 
-                                        pingModel pingModel = new pingModel();
-                                        pingModel.setData_error_info(throwable.getMessage());
-                                        pingModel.setData_error_trace(stackTraceString);
-                                        dbHelper.addEvent(pingModel);
+
+
+                                        detailedEvent(errorGroupTitle,throwable.getMessage(),stackTraceString);
+
 
                                         intent.putExtra(EXTRA_STACK_TRACE, stackTraceString);
 
@@ -686,5 +702,40 @@ public final class pingMeLive {
         void onRestartAppFromErrorActivity();
 
         void onCloseAppFromErrorActivity();
+    }
+
+    public static void simpleEvent(String groupTitle,String message)
+    {
+        try {
+            pingModel pingModel = new pingModel();
+            pingModel.setGroupTitle(groupTitle);
+            pingModel.setMessage(getMessage(message));
+
+            if (dbHelper != null) {
+                dbHelper.addEvent(pingModel);
+            }
+        }
+        catch (Exception ignored)
+        {
+
+        }
+    }
+
+    public static void detailedEvent(String groupTitle,String message,String detailedText)
+    {
+        try {
+            pingModel pingModel = new pingModel();
+            pingModel.setGroupTitle(groupTitle);
+            pingModel.setMessage(getMessage(message));
+            pingModel.setDetailText(getDetailedText(detailedText));
+
+            if (dbHelper != null) {
+                dbHelper.addEvent(pingModel);
+            }
+        }
+        catch (Exception ignored)
+        {
+
+        }
     }
 }
