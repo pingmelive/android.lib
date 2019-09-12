@@ -161,7 +161,7 @@ public class DBHelper extends SQLiteOpenHelper {
         values.put(GROUP_TITLE,pingModel.getGroupTitle());
         values.put(MESSAGE,pingModel.getMessage());
         values.put(DETAIL_MESSAGE,pingModel.getDetailText());
-        values.put(EVENT_DATE_TIME,getDatetime("HH:mm:ss dd-MM-yyyy",0));
+        values.put(EVENT_DATE_TIME,getDatetime("yyyy-MM-dd HH:mm:ss",0));
 
         db.insert(DATA,null,values);
         Log.e("pingMeLive","New Error Event Added - "+pingModel.getMessage());
