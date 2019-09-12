@@ -1,4 +1,4 @@
-package com.quarter.pingmelive;
+package com.pingmelive;
 
 public class pingModel {
 

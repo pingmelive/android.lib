@@ -1,4 +1,4 @@
-package com.quarter.pingmelive;
+package com.pingmelive;
 
 import org.junit.Test;
 

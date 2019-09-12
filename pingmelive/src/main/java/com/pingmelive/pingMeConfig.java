@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.quarter.pingmelive;
+package com.pingmelive;
 
 import android.app.Activity;
 

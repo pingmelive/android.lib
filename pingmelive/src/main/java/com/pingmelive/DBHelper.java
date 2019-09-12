@@ -1,4 +1,4 @@
-package com.quarter.pingmelive;
+package com.pingmelive;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -12,7 +12,6 @@ import android.text.format.DateFormat;
 import android.util.Log;
 
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;

@@ -1,10 +1,9 @@
-package com.quarter.pingmelive;
+package com.pingmelive;
 
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.media.AudioAttributes;
@@ -12,7 +11,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.IBinder;
 import android.util.Log;
-import android.view.View;
 
 import androidx.core.app.NotificationCompat;
 
@@ -24,7 +22,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -78,7 +75,7 @@ public class sendLogToServer extends Service {
 
         Log.e("Data","Sending to server");
 
-        String url = "https://billse.app/ping";
+        String url = "http://pingmelive.com/event/push/";
 
             StringRequest strReq = new StringRequest(Request.Method.POST,
                     url, new Response.Listener<String>() {
