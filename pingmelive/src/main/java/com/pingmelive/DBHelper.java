@@ -3,6 +3,7 @@ package com.pingmelive;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -192,7 +193,7 @@ public class DBHelper extends SQLiteOpenHelper {
         }
     }
 
-    public static JSONObject getDeviceInfo(){
+    public  JSONObject getDeviceInfo(){
 
         JSONObject device_info = new JSONObject();
         try
@@ -201,8 +202,8 @@ public class DBHelper extends SQLiteOpenHelper {
             device_info.put("Device Model",""+Build.MODEL);
             device_info.put("Android Version",""+ Build.VERSION.RELEASE);
             device_info.put("Android Version Code",""+Build.VERSION.SDK_INT);
-            device_info.put("App Version Code",""+BuildConfig.VERSION_CODE);
-            device_info.put("App Version Name",""+BuildConfig.VERSION_NAME);
+            device_info.put("App Version Code",getVersionCode(context));
+            device_info.put("App Version Name",getVersionName(context));
         }
         catch (Exception e)
         {
@@ -258,21 +259,39 @@ public class DBHelper extends SQLiteOpenHelper {
         return formatter.format(calendar.getTime());
     }
 
-    public static String getMessage(String message)
+    public  String getMessage(String message)
     {
-        return "Version - "+BuildConfig.VERSION_NAME+"("+BuildConfig.VERSION_CODE+")\n"+message;
+        return "Version - "+getVersionName(context)+"("+BuildConfig.VERSION_CODE+")\n"+message;
     }
 
-    public static String getDetailedText(String text)
+    public String getDetailedText(String text)
     {
         try {
             JSONObject jsonObject = getDeviceInfo();
-            jsonObject.put("detailedText",text);
+            jsonObject.put("errorSummary",text);
             return  jsonObject.toString();
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
         return null;
+    }
+
+    private String getVersionName(Context context) {
+        try {
+            PackageInfo packageInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+            return packageInfo.versionName;
+        } catch (Exception e) {
+            return "Unknown Code";
+        }
+    }
+
+    private String getVersionCode(Context context) {
+        try {
+            PackageInfo packageInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+            return packageInfo.versionName;
+        } catch (Exception e) {
+            return "Unknown Version Name";
+        }
     }
 }
