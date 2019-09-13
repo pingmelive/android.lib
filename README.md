@@ -22,7 +22,12 @@ Add a snippet like this to your `Application` class:
 public void onCreate() {
     super.onCreate();
 
-      pingMeLive.install(getApplicationContext());
+      //By default you will get all the crashes and runtime error in a form of error event.
+      //You will get an API KEY when you will register on pingmelive.com
+
+      String appName = "MyGreatApp";
+      pingMeLive.install(getApplicationContext(),"Error for "+appName,"API_KEY");
+      
       //thats it 
       
 }
@@ -39,33 +44,50 @@ Force an app crash by throwing an uncaught exception, using something like this 
 throw new RuntimeException("A dummy error!! No more force stop dialogs!");
 ```
 
+## Custom Events
 
+You can also use pingmelive for sending custom events.
 
-### Advanced setup
+### 1.Simple event
 
-You can customize the behavior of this library in several ways by setting its configuration at any moment.
-However, it's recommended to do it on your `Application` class so it becomes available as soon as possible.
-
-Add a snippet like this to your `Application` class:
 ```java
-@Override
-public void onCreate() {
-    super.onCreate();
 
-    pingMeLive.Builder.create()
-        .backgroundMode(CaocConfig.BACKGROUND_MODE_SILENT) //default: pingMeLive.BACKGROUND_MODE_SHOW_CUSTOM
-        .enabled(false) //default: true
-        .showErrorDetails(false) //default: true
-        .showRestartButton(false) //default: true
-        .logErrorOnRestart(false) //default: true
-        .trackActivities(true) //default: false
-        .minTimeBetweenCrashesMs(2000) //default: 3000
-        .errorDrawable(R.drawable.ic_custom_drawable) //default: bug image
-        .restartActivity(YourCustomActivity.class) //default: null (your app's launch activity)
-        .errorActivity(YourCustomErrorActivity.class) //default: null (default error activity)
-        .eventListener(new YourCustomEventListener()) //default: null
-        .apply();
-}
+String userID = "userabc";
+
+Button registerUser = findViewById(R.id.registerUser);
+        registerUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+               //Pass group title and your custom event message you want to send.
+                pingMeLive.simpleEvent("Registeration","Hey we got a new user "+userID);
+
+            }
+        });
+        
+
+```
+
+
+If you want to send data with message you can use `Detailed event`
+### 2.Detailed event
+
+```java
+
+String userID = "userabc";
+
+Button registerUser = findViewById(R.id.registerUser);
+        registerUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+               //Pass group title and your custom event message you want to send and detailed text
+                pingMeLive.detailedEvent("Registeration","Hey we got a new user "+userID,"You can send the user detail here.");
+
+            }
+        });
+        
+
 ```
 
 ## Using Proguard?
