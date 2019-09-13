@@ -26,7 +26,9 @@ public void onCreate() {
       //You will get an API KEY when you will register on pingmelive.com
 
       String appName = "MyGreatApp";
-      pingMeLive.install(getApplicationContext(),"Error for "+appName,"API_KEY");
+      String errorGroupTitle = "Error for "+appName;
+      
+      pingMeLive.install(getApplicationContext(),errorGroupTitle,"API_KEY");
       
       //thats it 
       
@@ -46,7 +48,7 @@ throw new RuntimeException("A dummy error!! No more force stop dialogs!");
 
 ## Custom Events
 
-You can also use pingmelive for sending custom events.
+You can also use pingMeLive for sending custom events.
 
 ### 1.Simple event
 
@@ -69,7 +71,7 @@ Button registerUser = findViewById(R.id.registerUser);
 ```
 
 
-If you want to send data with message you can use `Detailed event`
+If you want to send some detailed long description you can use `Detailed event`
 ### 2.Detailed event
 
 ```java
@@ -89,6 +91,12 @@ Button registerUser = findViewById(R.id.registerUser);
         
 
 ```
+
+## Some usefull information
+
+* Only `Detailed event` will by default contain the information like device info,app version code etc.
+* You you only want error event just install the library and thats it, no need to code anything else.
+* You can smartly use group title for you custom events.
 
 ## Using Proguard?
 
