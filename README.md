@@ -9,7 +9,7 @@ This library allows you to get all the error from your android app to pindMeLive
 Add the following dependency to your build.gradle:
 ```gradle
 dependencies {
-   implementation 'com.github.shuboooom:pingMeLive:V1.0.1'
+   implementation 'com.github.pingmelive:pingMeLive:1.0.2'
 }
 ```
 
