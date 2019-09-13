@@ -4,6 +4,10 @@ This library allows you to get all the error from your android app to pindMeLive
 
 ## How to use
 
+### Register yourself on
+[https://pingmelive.com](https://pingmelive.com)
+You will get your API KEY after registeration.
+
 ### One-step install
 
 Add the following dependency to your build.gradle:
