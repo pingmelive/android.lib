@@ -99,7 +99,7 @@ Button registerUser = findViewById(R.id.registerUser);
 ## Some usefull information
 
 * Only `Detailed event` will by default contain the information like device info,app version code etc.
-* You you only want error event just install the library and thats it, no need to code anything else.
+* If you only want error event just install the library and thats it, no need to code anything else.
 * You can smartly use group title for you custom events.
 
 ## Using Proguard?
