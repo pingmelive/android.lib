@@ -62,6 +62,17 @@ public class pingMePref {
         return sharedPreferences.getBoolean(valuename, defaultvalue);
     }
 
+
+
+    public void updateLongValue(String valuename, long newvalue) {
+        prefeditor.putLong(valuename, newvalue).commit();
+    }
+
+    public long getLongvalue(String valuename, long defaultvalue) {
+        return sharedPreferences.getLong(valuename, defaultvalue);
+    }
+
+
     public boolean isMute(String title)
     {
         return getBooleanvalue(""+title.hashCode(),false);

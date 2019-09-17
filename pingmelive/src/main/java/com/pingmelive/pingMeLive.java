@@ -13,7 +13,9 @@ import android.content.pm.ResolveInfo;
 import android.os.Build;
 import android.os.Bundle;
 
+import android.os.Handler;
 import android.util.Log;
+import android.view.LayoutInflater;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -34,48 +36,42 @@ import java.util.Locale;
 public final class pingMeLive {
 
     private final static String TAG = "pingMeLive";
-    private static int minTimeBetweenCrashesMs = 2000;
-
-    //Extras passed to the error activity
-    private static final String EXTRA_CONFIG = "cat.ereza.customactivityoncrash.EXTRA_CONFIG";
-    private static final String EXTRA_STACK_TRACE = "cat.ereza.customactivityoncrash.EXTRA_STACK_TRACE";
-    private static final String EXTRA_ACTIVITY_LOG = "cat.ereza.customactivityoncrash.EXTRA_ACTIVITY_LOG";
 
     //General constants
-    private static final String INTENT_ACTION_ERROR_ACTIVITY = "cat.ereza.customactivityoncrash.ERROR";
-    private static final String INTENT_ACTION_RESTART_ACTIVITY = "cat.ereza.customactivityoncrash.RESTART";
-    private static final String CAOC_HANDLER_PACKAGE_NAME = "cat.ereza.customactivityoncrash";
+    private static final String CAOC_HANDLER_PACKAGE_NAME = "com.pingmelive.pingMeLive";
     private static final String DEFAULT_HANDLER_PACKAGE_NAME = "com.android.internal.os";
-    private static final int MAX_STACK_TRACE_SIZE = 131071; //128 KB - 1
-    private static final int MAX_ACTIVITIES_IN_LOG = 50;
 
-    //Shared preferences
-    private static final String SHARED_PREFERENCES_FILE = "custom_activity_on_crash";
-    private static final String SHARED_PREFERENCES_FIELD_TIMESTAMP = "last_crash_timestamp";
+    private static final String SHARED_PREFERENCES_FIELD_TIMESTAMP = "LAST_CRASH_TIME_STAMP";
 
-    //Internal variables
+
     @SuppressLint("StaticFieldLeak") //This is an application-wide component
     private static Application application;
-    //private static pingMeConfig config = new pingMeConfig();
-    private static final Deque<String> activityLog = new ArrayDeque<>(MAX_ACTIVITIES_IN_LOG);
-    private static WeakReference<Activity> lastActivityCreated = new WeakReference<>(null);
-    private static boolean isInBackground = true;
 
     private static DBHelper dbHelper;
     private static pingMePref pingMePref;
 
-    public static void install(@Nullable final Context context, final String errorGroupTitle, String APIKEY,String appId) {
+    protected final Builder builder;
+
+
+    @SuppressLint("InflateParams")
+    protected pingMeLive(Builder builder) {
+        this.builder = builder;
+    }
+
+    public static void install(@Nullable final Context context,boolean errorEvents, final String errorGroupTitle, String APIKEY,String appId) {
         try {
             if (context == null) {
                 Log.e(TAG, "Install failed: context is null!");
             } else {
 
 
-                if(errorGroupTitle==null || errorGroupTitle.trim().length()<=0)
+                if(errorEvents)
                 {
-                    Log.e(TAG, "errorGroupTitle needed check your application class");
-                    Log.e(TAG, "pingMeLive not installed.");
-                    return;
+                    if(errorGroupTitle==null || errorGroupTitle.trim().length()<=0) {
+                        Log.e(TAG, "errorGroupTitle needed check your application class");
+                        Log.e(TAG, "pingMeLive not installed.");
+                        return;
+                    }
                 }
 
                 if(APIKEY==null || APIKEY.trim().length()<=0)
@@ -135,6 +131,7 @@ public final class pingMeLive {
                                     detailedEvent(errorGroupTitle,throwable.getMessage(),stackTraceString);
 
                                 }
+
                                 killCurrentProcess();
 
                         }
@@ -169,7 +166,7 @@ public final class pingMeLive {
      */
     @SuppressLint("ApplySharedPref") //This must be done immediately since we are killing the app
     private static void setLastCrashTimestamp(@NonNull Context context, long timestamp) {
-        context.getSharedPreferences(SHARED_PREFERENCES_FILE, Context.MODE_PRIVATE).edit().putLong(SHARED_PREFERENCES_FIELD_TIMESTAMP, timestamp).commit();
+        pingMePref.updateLongValue(SHARED_PREFERENCES_FIELD_TIMESTAMP, timestamp);
     }
 
     /**
@@ -178,7 +175,7 @@ public final class pingMeLive {
      * @return The last crash timestamp, or -1 if not set.
      */
     private static long getLastCrashTimestamp(@NonNull Context context) {
-        return context.getSharedPreferences(SHARED_PREFERENCES_FILE, Context.MODE_PRIVATE).getLong(SHARED_PREFERENCES_FIELD_TIMESTAMP, -1);
+        return pingMePref.getLongvalue(SHARED_PREFERENCES_FIELD_TIMESTAMP, -1);
     }
 
     /**
@@ -191,6 +188,7 @@ public final class pingMeLive {
         long lastTimestamp = getLastCrashTimestamp(context);
         long currentTimestamp = new Date().getTime();
 
+        int minTimeBetweenCrashesMs = 2000;
         return (lastTimestamp <= currentTimestamp && currentTimestamp - lastTimestamp < minTimeBetweenCrashesMs);
     }
 
@@ -228,6 +226,61 @@ public final class pingMeLive {
         catch (Exception ignored)
         {
 
+        }
+    }
+
+
+    public static class Builder {
+
+        boolean setErrorEventEnabled = true;
+        String setErrorEventTitle = null;
+        String API_KEY = null;
+        String APP_ID = null;
+        Context context;
+
+        public Builder(Context context)
+        {
+            this.context = context;
+        }
+
+        boolean isSetErrorEventEnabled() {
+            return setErrorEventEnabled;
+        }
+
+        public Builder setSetErrorEventEnabled(boolean setErrorEventEnabled) {
+            this.setErrorEventEnabled = setErrorEventEnabled;
+            return this;
+        }
+
+        String getSetErrorEventTitle() {
+            return setErrorEventTitle;
+        }
+
+        public Builder setSetErrorEventTitle(String setErrorEventTitle) {
+            this.setErrorEventTitle = setErrorEventTitle;
+            return this;
+        }
+
+        String getAPI_KEY() {
+            return API_KEY;
+        }
+
+        public Builder setAPI_KEY(String API_KEY) {
+            this.API_KEY = API_KEY;
+            return this;
+        }
+
+        String getAPP_ID() {
+            return APP_ID;
+        }
+
+        public Builder setAPP_ID(String APP_ID) {
+            this.APP_ID = APP_ID;
+            return this;
+        }
+
+        public void install() {
+            pingMeLive.install(context,isSetErrorEventEnabled(),getSetErrorEventTitle(),getAPI_KEY(),getAPP_ID());
         }
     }
 }
