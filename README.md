@@ -13,7 +13,7 @@ You will get your API KEY after registeration.
 Add the following dependency to your build.gradle:
 ```gradle
 dependencies {
-   implementation 'com.github.pingmelive:pingMeLive:1.0.3'
+   implementation 'com.github.pingmelive:pingMeLive:1.0.6'
 }
 ```
 
@@ -26,14 +26,16 @@ Add a snippet like this to your `Application` class:
 public void onCreate() {
     super.onCreate();
 
-      //By default you will get all the crashes and runtime error in a form of error event.
-      //You will get an API KEY when you will register on pingmelive.com
 
-      String appName = "MyGreatApp";
-      String errorEventTitle = "Error for "+appName;
-      
-      pingMeLive.install(getApplicationContext(),errorEventTitle,"API_KEY");
-      
+      new pingMeLive.Builder(getApplicationContext())
+                      .setErrorEventEnabled(true) //By Default True - This will send error events to you
+                      .setErrorEventTitle("ERROR_TITLE") //Error Event title
+                      .setAPI_KEY("YOUR_API_KEY") //Your API KEY
+                      .setAPP_ID("YOUR_APP_ID") //Your APP ID
+                      .install();
+                      
+      //By default you will get all the crashes and runtime error in a form of error event.
+      //You will get an API KEY when you will register on pingmelive.com 
       //thats it 
       
 }
