@@ -58,58 +58,55 @@ public final class pingMeLive {
         this.builder = builder;
     }
 
-    public static void install(@Nullable final Context context,boolean errorEvents, final String errorGroupTitle, String APIKEY,String appId) {
-        try {
-            if (context == null) {
-                Log.e(TAG, "Install failed: context is null!");
-            } else {
+    public static void install(@Nullable final Context context,boolean errorEvents, final String errorEventTitle, String APIKEY,String appId) {
+
+        if(errorEvents) {
+            try {
+                if (context == null) {
+                    Log.e(TAG, "Install failed: context is null!");
+                } else {
 
 
-                if(errorEvents)
-                {
-                    if(errorGroupTitle==null || errorGroupTitle.trim().length()<=0) {
-                        Log.e(TAG, "errorGroupTitle needed check your application class");
+                    if (errorEventTitle == null || errorEventTitle.trim().length() <= 0) {
+                        Log.e(TAG, "errorEventTitle needed check your application class");
                         Log.e(TAG, "pingMeLive not installed.");
                         return;
                     }
-                }
 
-                if(APIKEY==null || APIKEY.trim().length()<=0)
-                {
-                    Log.e(TAG, "API KEY needed check your application class");
-                    Log.e(TAG, "pingMeLive not installed.");
-                    return;
-                }
-
-                if(appId==null || appId.trim().length()<=0)
-                {
-                    Log.e(TAG, "appId needed check your application class");
-                    Log.e(TAG, "pingMeLive not installed.");
-                    return;
-                }
-
-                dbHelper = DBHelper.getInstance(context);
-                pingMePref = com.pingmelive.pingMePref.getInstance(context);
-
-                pingMePref.setAPIKey(APIKEY);
-                pingMePref.setAppId(appId);
-
-                //INSTALL!
-                final Thread.UncaughtExceptionHandler oldHandler = Thread.getDefaultUncaughtExceptionHandler();
-
-                if (oldHandler != null && oldHandler.getClass().getName().startsWith(CAOC_HANDLER_PACKAGE_NAME)) {
-                    Log.e(TAG, "pingMeLive was already installed, doing nothing!");
-                } else {
-                    if (oldHandler != null && !oldHandler.getClass().getName().startsWith(DEFAULT_HANDLER_PACKAGE_NAME)) {
-                        Log.e(TAG, "IMPORTANT WARNING! You already have an UncaughtExceptionHandler, are you sure this is correct? If you use a custom UncaughtExceptionHandler, you must initialize it AFTER pingMeLive! Installing anyway, but your original handler will not be called.");
+                    if (APIKEY == null || APIKEY.trim().length() <= 0) {
+                        Log.e(TAG, "API KEY needed check your application class");
+                        Log.e(TAG, "pingMeLive not installed.");
+                        return;
                     }
 
-                    application = (Application) context.getApplicationContext();
+                    if (appId == null || appId.trim().length() <= 0) {
+                        Log.e(TAG, "appId needed check your application class");
+                        Log.e(TAG, "pingMeLive not installed.");
+                        return;
+                    }
 
-                    //We define a default exception handler that does what we want so it can be called from Crashlytics/ACRA
-                    Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
-                        @Override
-                        public void uncaughtException(Thread thread, final Throwable throwable) {
+                    dbHelper = DBHelper.getInstance(context);
+                    pingMePref = com.pingmelive.pingMePref.getInstance(context);
+
+                    pingMePref.setAPIKey(APIKEY);
+                    pingMePref.setAppId(appId);
+
+                    //INSTALL!
+                    final Thread.UncaughtExceptionHandler oldHandler = Thread.getDefaultUncaughtExceptionHandler();
+
+                    if (oldHandler != null && oldHandler.getClass().getName().startsWith(CAOC_HANDLER_PACKAGE_NAME)) {
+                        Log.e(TAG, "pingMeLive was already installed, doing nothing!");
+                    } else {
+                        if (oldHandler != null && !oldHandler.getClass().getName().startsWith(DEFAULT_HANDLER_PACKAGE_NAME)) {
+                            Log.e(TAG, "IMPORTANT WARNING! You already have an UncaughtExceptionHandler, are you sure this is correct? If you use a custom UncaughtExceptionHandler, you must initialize it AFTER pingMeLive! Installing anyway, but your original handler will not be called.");
+                        }
+
+                        application = (Application) context.getApplicationContext();
+
+                        //We define a default exception handler that does what we want so it can be called from Crashlytics/ACRA
+                        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+                            @Override
+                            public void uncaughtException(Thread thread, final Throwable throwable) {
 
                                 Log.e(TAG, "App has crashed, executing pingMeLive's UncaughtExceptionHandler", throwable);
 
@@ -128,26 +125,49 @@ public final class pingMeLive {
                                     PrintWriter pw = new PrintWriter(sw);
                                     throwable.printStackTrace(pw);
                                     String stackTraceString = sw.toString();
-                                    detailedEvent(errorGroupTitle,throwable.getMessage(),stackTraceString);
+                                    detailedEvent(errorEventTitle, throwable.getMessage(), stackTraceString);
 
                                 }
 
                                 killCurrentProcess();
 
-                        }
-                    });
-                }
+                            }
+                        });
+                    }
 
-                Log.i(TAG, "pingMeLive has been installed.");
-                dbHelper.sendData();
+                    Log.i(TAG, "pingMeLive has been installed.");
+                    dbHelper.sendData();
+                }
+            } catch (Throwable t) {
+                Log.e(TAG, "An unknown error occurred while installing pingMeLive, it may not have been properly initialized. Please report this as a bug if needed.", t);
             }
-        } catch (Throwable t) {
-            Log.e(TAG, "An unknown error occurred while installing pingMeLive, it may not have been properly initialized. Please report this as a bug if needed.", t);
+        }
+        else {
+
+            if (APIKEY == null || APIKEY.trim().length() <= 0) {
+                Log.e(TAG, "API KEY needed check your application class");
+                Log.e(TAG, "pingMeLive not installed.");
+                return;
+            }
+
+            if (appId == null || appId.trim().length() <= 0) {
+                Log.e(TAG, "appId needed check your application class");
+                Log.e(TAG, "pingMeLive not installed.");
+                return;
+            }
+
+
+            Log.i(TAG, "pingMeLive has been installed, But without error events, to activate that setErrorEventEnabled(true) in your application class.");
+
+            dbHelper = DBHelper.getInstance(context);
+            pingMePref = com.pingmelive.pingMePref.getInstance(context);
+
+            pingMePref.setAPIKey(APIKEY);
+            pingMePref.setAppId(appId);
+
+            dbHelper.sendData();
         }
     }
-
-
-
 
 
     /**
@@ -232,8 +252,8 @@ public final class pingMeLive {
 
     public static class Builder {
 
-        boolean setErrorEventEnabled = true;
-        String setErrorEventTitle = null;
+        boolean ErrorEventEnabled = true;
+        String ErrorEventTitle = null;
         String API_KEY = null;
         String APP_ID = null;
         Context context;
@@ -243,21 +263,21 @@ public final class pingMeLive {
             this.context = context;
         }
 
-        boolean isSetErrorEventEnabled() {
-            return setErrorEventEnabled;
+        boolean isErrorEventEnabled() {
+            return ErrorEventEnabled;
         }
 
-        public Builder setSetErrorEventEnabled(boolean setErrorEventEnabled) {
-            this.setErrorEventEnabled = setErrorEventEnabled;
+        public Builder setErrorEventEnabled(boolean setErrorEventEnabled) {
+            this.ErrorEventEnabled = setErrorEventEnabled;
             return this;
         }
 
-        String getSetErrorEventTitle() {
-            return setErrorEventTitle;
+        String getErrorEventTitle() {
+            return ErrorEventTitle;
         }
 
-        public Builder setSetErrorEventTitle(String setErrorEventTitle) {
-            this.setErrorEventTitle = setErrorEventTitle;
+        public Builder setErrorEventTitle(String setErrorEventTitle) {
+            this.ErrorEventTitle = setErrorEventTitle;
             return this;
         }
 
@@ -280,7 +300,7 @@ public final class pingMeLive {
         }
 
         public void install() {
-            pingMeLive.install(context,isSetErrorEventEnabled(),getSetErrorEventTitle(),getAPI_KEY(),getAPP_ID());
+            pingMeLive.install(context,isErrorEventEnabled(),getErrorEventTitle(),getAPI_KEY(),getAPP_ID());
         }
     }
 }

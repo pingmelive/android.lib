@@ -30,9 +30,9 @@ public void onCreate() {
       //You will get an API KEY when you will register on pingmelive.com
 
       String appName = "MyGreatApp";
-      String errorGroupTitle = "Error for "+appName;
+      String errorEventTitle = "Error for "+appName;
       
-      pingMeLive.install(getApplicationContext(),errorGroupTitle,"API_KEY");
+      pingMeLive.install(getApplicationContext(),errorEventTitle,"API_KEY");
       
       //thats it 
       
