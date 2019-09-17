@@ -34,6 +34,7 @@ public class sendLogToServer extends Service {
 
     ArrayList<pingModel> list;
     DBHelper dbHelper;
+    pingMePref pingMePref;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -49,6 +50,7 @@ public class sendLogToServer extends Service {
 
 
         dbHelper = DBHelper.getInstance(getApplicationContext());
+        pingMePref = com.pingmelive.pingMePref.getInstance(getApplicationContext());
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             startForeground(("localtoServerSync".hashCode()),getServiceNotification());
@@ -126,6 +128,9 @@ public class sendLogToServer extends Service {
                 public Map<String, String> getHeaders() {
                     Map<String, String>  headers = new HashMap<>();
                     headers.put("Content-Type","application/json");
+                    headers.put("apikey",pingMePref.getAPIKey());
+                    headers.put("appid",pingMePref.getAppId());
+
                     return headers;
                 }
 

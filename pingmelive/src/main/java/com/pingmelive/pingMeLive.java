@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -60,9 +61,10 @@ public final class pingMeLive {
     private static WeakReference<Activity> lastActivityCreated = new WeakReference<>(null);
     private static boolean isInBackground = true;
 
-    public static DBHelper dbHelper;
+    private static DBHelper dbHelper;
+    private static pingMePref pingMePref;
 
-    public static void install(@Nullable final Context context, final String errorGroupTitle, String APIKEY) {
+    public static void install(@Nullable final Context context, final String errorGroupTitle, String APIKEY,String appId) {
         try {
             if (context == null) {
                 Log.e(TAG, "Install failed: context is null!");
@@ -71,17 +73,31 @@ public final class pingMeLive {
 
                 if(errorGroupTitle==null || errorGroupTitle.trim().length()<=0)
                 {
-                    Log.i(TAG, "errorGroupTitle needed check your application class");
+                    Log.e(TAG, "errorGroupTitle needed check your application class");
+                    Log.e(TAG, "pingMeLive not installed.");
                     return;
                 }
 
                 if(APIKEY==null || APIKEY.trim().length()<=0)
                 {
-                    Log.i(TAG, "API KEY needed check your application class");
+                    Log.e(TAG, "API KEY needed check your application class");
+                    Log.e(TAG, "pingMeLive not installed.");
+                    return;
+                }
+
+                if(appId==null || appId.trim().length()<=0)
+                {
+                    Log.e(TAG, "appId needed check your application class");
+                    Log.e(TAG, "pingMeLive not installed.");
                     return;
                 }
 
                 dbHelper = DBHelper.getInstance(context);
+                pingMePref = com.pingmelive.pingMePref.getInstance(context);
+
+                pingMePref.setAPIKey(APIKEY);
+                pingMePref.setAppId(appId);
+
                 //INSTALL!
                 final Thread.UncaughtExceptionHandler oldHandler = Thread.getDefaultUncaughtExceptionHandler();
 
