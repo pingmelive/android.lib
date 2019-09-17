@@ -37,5 +37,17 @@ public class sampleActivity extends AppCompatActivity {
 
             }
         });
+
+        Button detailedEvent = findViewById(R.id.detailedEvent);
+        detailedEvent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Toast.makeText(sampleActivity.this, "Detailed event sent", Toast.LENGTH_SHORT).show();
+                pingMeLive.detailedEvent("Detailed event","This is a Detailed event!!","You can send big information here.");
+
+
+            }
+        });
     }
 }

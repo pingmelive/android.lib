@@ -29,5 +29,16 @@
         android:layout_gravity="center"
         android:text="Put a simple event"
         style="@style/Widget.AppCompat.Button.Colored"/>
+    <Button
+        android:id="@+id/detailedEvent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="20dp"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:layout_gravity="center"
+        android:text="Put a detail event"
+        style="@style/Widget.AppCompat.Button.Colored"/>
 
 </LinearLayout>
