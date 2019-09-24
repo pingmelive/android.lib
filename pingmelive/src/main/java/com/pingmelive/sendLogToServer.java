@@ -129,7 +129,7 @@ public class sendLogToServer extends Service {
                     Map<String, String>  headers = new HashMap<>();
                     headers.put("Content-Type","application/json");
                     headers.put("apikey",pingMePref.getAPIKey());
-                    headers.put("appid",pingMePref.getAppId());
+                    headers.put("projectid",pingMePref.getAppId());
 
                     return headers;
                 }
