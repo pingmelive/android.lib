@@ -13,7 +13,7 @@ You will get your API KEY after registeration.
 Add the following dependency to your build.gradle:
 ```gradle
 dependencies {
-   implementation 'com.github.pingmelive:pingMeLive:1.0.6'
+   implementation 'com.github.pingmelive:pingMeLive:1.0.8'
 }
 ```
 
