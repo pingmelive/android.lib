@@ -58,7 +58,7 @@ public final class pingMeLive {
         this.builder = builder;
     }
 
-    public static void install(@Nullable final Context context,boolean errorEvents, final String errorEventTitle, String APIKEY,String appId) {
+    public static void install(@Nullable final Context context,boolean errorEvents, final String errorEventTitle, String API_KEY,String PROJECT_ID) {
 
         if(errorEvents) {
             try {
@@ -73,14 +73,14 @@ public final class pingMeLive {
                         return;
                     }
 
-                    if (APIKEY == null || APIKEY.trim().length() <= 0) {
+                    if (API_KEY == null || API_KEY.trim().length() <= 0) {
                         Log.e(TAG, "API KEY needed check your application class");
                         Log.e(TAG, "pingMeLive not installed.");
                         return;
                     }
 
-                    if (appId == null || appId.trim().length() <= 0) {
-                        Log.e(TAG, "appId needed check your application class");
+                    if (PROJECT_ID == null || PROJECT_ID.trim().length() <= 0) {
+                        Log.e(TAG, "PROJECT_ID needed check your application class");
                         Log.e(TAG, "pingMeLive not installed.");
                         return;
                     }
@@ -88,8 +88,8 @@ public final class pingMeLive {
                     dbHelper = DBHelper.getInstance(context);
                     pingMePref = com.pingmelive.pingMePref.getInstance(context);
 
-                    pingMePref.setAPIKey(APIKEY);
-                    pingMePref.setAppId(appId);
+                    pingMePref.setAPIKey(API_KEY);
+                    pingMePref.setAppId(PROJECT_ID);
 
                     //INSTALL!
                     final Thread.UncaughtExceptionHandler oldHandler = Thread.getDefaultUncaughtExceptionHandler();
@@ -144,13 +144,13 @@ public final class pingMeLive {
         }
         else {
 
-            if (APIKEY == null || APIKEY.trim().length() <= 0) {
+            if (API_KEY == null || API_KEY.trim().length() <= 0) {
                 Log.e(TAG, "API KEY needed check your application class");
                 Log.e(TAG, "pingMeLive not installed.");
                 return;
             }
 
-            if (appId == null || appId.trim().length() <= 0) {
+            if (PROJECT_ID == null || PROJECT_ID.trim().length() <= 0) {
                 Log.e(TAG, "appId needed check your application class");
                 Log.e(TAG, "pingMeLive not installed.");
                 return;
@@ -162,8 +162,8 @@ public final class pingMeLive {
             dbHelper = DBHelper.getInstance(context);
             pingMePref = com.pingmelive.pingMePref.getInstance(context);
 
-            pingMePref.setAPIKey(APIKEY);
-            pingMePref.setAppId(appId);
+            pingMePref.setAPIKey(API_KEY);
+            pingMePref.setAppId(PROJECT_ID);
 
             dbHelper.sendData();
         }
@@ -255,7 +255,7 @@ public final class pingMeLive {
         boolean ErrorEventEnabled = true;
         String ErrorEventTitle = null;
         String API_KEY = null;
-        String APP_ID = null;
+        String PROJECT_ID = null;
         Context context;
 
         public Builder(Context context)
@@ -290,17 +290,17 @@ public final class pingMeLive {
             return this;
         }
 
-        String getAPP_ID() {
-            return APP_ID;
+        public String getPROJECT_ID() {
+            return PROJECT_ID;
         }
 
-        public Builder setAPP_ID(String APP_ID) {
-            this.APP_ID = APP_ID;
+        public Builder setPROJECT_ID(String PROJECT_ID) {
+            this.PROJECT_ID = PROJECT_ID;
             return this;
         }
 
         public void install() {
-            pingMeLive.install(context,isErrorEventEnabled(),getErrorEventTitle(),getAPI_KEY(),getAPP_ID());
+            pingMeLive.install(context,isErrorEventEnabled(),getErrorEventTitle(),getAPI_KEY(),getPROJECT_ID());
         }
     }
 }

@@ -85,6 +85,7 @@ public class sendLogToServer extends Service {
                 @Override
                 public void onResponse(String response) {
 
+                    Log.e("API Response",""+response);
                     Log.e("Data","Sent to server");
                     dbHelper.removeEvent(pingModel.getId());
 
@@ -119,6 +120,7 @@ public class sendLogToServer extends Service {
                     }
                     String str = jsonObject.toString();
 
+                    Log.e("API Body",jsonObject.toString());
                     return str.getBytes();
                 }
 
@@ -131,6 +133,7 @@ public class sendLogToServer extends Service {
                     headers.put("apikey",pingMePref.getAPIKey());
                     headers.put("projectid",pingMePref.getAppId());
 
+                    Log.e("API Header",headers.toString());
                     return headers;
                 }
 

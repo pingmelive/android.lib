@@ -12,7 +12,7 @@ public class application extends Application {
                 .setErrorEventEnabled(true)
                 .setErrorEventTitle("ERROR_TITLE")
                 .setAPI_KEY("YOUR_API_KEY")
-                .setAPP_ID("YOUR_APP_ID")
+                .setPROJECT_ID("YOUR_APP_ID")
                 .install();
     }
 }
