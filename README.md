@@ -34,7 +34,7 @@ public void onCreate() {
                 .setErrorEventEnabled(true) //By Default True - This will send error events to you
                 .setErrorEventTitle("ERROR_TITLE") //Error Event title
                 .setAPI_KEY("YOUR_API_KEY") //Your API KEY
-                .setPROJECT_ID("YOUR_APP_ID") //Your Project ID
+                .setPROJECT_ID("YOUR_PROJECT_ID") //Your Project ID
                 .install();
                       
       //By default you will get all the crashes and runtime error in a form of error event.
