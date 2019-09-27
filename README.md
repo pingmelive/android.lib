@@ -2,14 +2,14 @@
 
 This is a library which helps you to get LIVE notifications of actions taking place on your webistes and applications.
 Just Copy past the below codes and get live updates of errors and actions. Make Categories of pings based on projects (etc) and assign it to your team mates.
-That's what PING ME LIVE does.
+That's what PingMeLive does.
 Easy right!.
 
 ## How to use
 
 ### Register yourself on
-[https://pingmelive.com](https://pingmelive.com)
-You will get your API KEY after registeration.
+
+[https://pingmelive.com](https://pingmelive.com) **and get your `API KEY`**.
 
 ### One-step install
 
@@ -101,6 +101,17 @@ Button registerUser = findViewById(R.id.registerUser);
 
 ```
 
+
+### Options
+* **apiKey** : To get an `API KEY` , register on pingmelive.com. Its free to use.
+* **projectID** : Once registered, Click on New Project to create. 
+* **errorStatus** : `true` / `false` (Boolen Value).
+* **errorName** : This will be your `Group Title/Name` where all the error will be pinged.(This works when `errorStatus` is set as `true`.
+* **groupTitle** : This will be your `Group Tilte/Name` under which , you will get all your pings.
+* **eventMessage** : The `errorMessage` is limited to 360 character in length. Any additional characters beyond 360 character will be truncated.
+* **detailDescription** : The `detailDescription` is does not have any length limitation. You can also send JSON Formatted String / or simple plain string.
+
+
 ## Some usefull information
 
 * Only `Detailed event` will by default contain the information like device info,app version code etc.
@@ -124,5 +135,4 @@ When an exception is caught by the library's `UncaughtExceptionHandler` it does 
 
 * This will not avoid ANRs from happening.
 * This will not catch native errors.
-* There is no guarantee that this will work on every device.
 * This library will not make you toast for breakfast :)
