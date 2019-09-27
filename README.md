@@ -70,7 +70,7 @@ Button registerUser = findViewById(R.id.registerUser);
             @Override
             public void onClick(View view) {
 
-               //Pass group title and your custom event message you want to send.
+               //Pass `groupTitle` and your custom `eventMessage`.
                 pingMeLive.simpleEvent("Registeration","Hey we got a new user "+userID);
 
             }
@@ -92,7 +92,7 @@ Button registerUser = findViewById(R.id.registerUser);
             @Override
             public void onClick(View view) {
 
-               //Pass group title and your custom event message you want to send and detailed text
+               //Pass `groupTitle` and your custom `eventMessage` you want to send and `detailDescription`
                 pingMeLive.detailedEvent("Registeration","Hey we got a new user "+userID,"You can send the user detail here.");
 
             }
