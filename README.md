@@ -16,7 +16,7 @@ Easy right!.
 Add the following dependency to your build.gradle:
 ```gradle
 dependencies {
-   implementation 'com.github.pingmelive:pingMeLive:1.0.8'
+      implementation 'com.github.pingmelive:android.lib:1.0.8'
 }
 ```
 
