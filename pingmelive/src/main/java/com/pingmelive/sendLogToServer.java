@@ -75,9 +75,9 @@ public class sendLogToServer extends Service {
 
     public void sync_local_to_server(final pingModel pingModel) {
 
-        Log.e("pingMeLive","Sending to server "+pingModel.getMessage());
+        //Log.e("pingMeLive","Sending to server "+pingModel.getMessage());
 
-        String url = "http://pingmelive.com/event/push/";
+        String url = "https://pingmelive.com/event/push/";
 
             StringRequest strReq = new StringRequest(Request.Method.POST,
                     url, new Response.Listener<String>() {
@@ -85,8 +85,8 @@ public class sendLogToServer extends Service {
                 @Override
                 public void onResponse(String response) {
 
-                    Log.e("API Response",""+response);
-                    Log.e("Data","Sent to server");
+                    //Log.e("API Response",""+response);
+                    //Log.e("Data","Sent to server");
                     dbHelper.removeEvent(pingModel.getId());
 
                 }
@@ -95,11 +95,11 @@ public class sendLogToServer extends Service {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     if(error!=null && error.getMessage()!=null) {
-                        Log.e("TAG", "Error sending the log " + error.getMessage());
+                        //Log.e("TAG", "Error sending the log " + error.getMessage());
                     }
                     else
                     {
-                        Log.e("TAG", "Error sending the log");
+                        //Log.e("TAG", "Error sending the log");
                     }
                 }
             }) {
@@ -120,7 +120,7 @@ public class sendLogToServer extends Service {
                     }
                     String str = jsonObject.toString();
 
-                    Log.e("API Body",jsonObject.toString());
+                    //Log.e("API Body",jsonObject.toString());
                     return str.getBytes();
                 }
 
@@ -133,7 +133,7 @@ public class sendLogToServer extends Service {
                     headers.put("apikey",pingMePref.getAPIKey());
                     headers.put("projectid",pingMePref.getAppId());
 
-                    Log.e("API Header",headers.toString());
+                    //Log.e("API Header",headers.toString());
                     return headers;
                 }
 
