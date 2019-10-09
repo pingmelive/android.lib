@@ -3,6 +3,7 @@ package com.pingmelive.lib;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -262,7 +263,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public  String getMessage(String message)
     {
-        return "Version - "+getVersionName(context)+"("+ BuildConfig.VERSION_CODE+")\n"+message;
+        return "Version - "+getVersionName(context)+"( "+ getVersionCode(context)+" )\n"+message;
     }
 
     public String getDetailedText(String text)
@@ -294,5 +295,11 @@ public class DBHelper extends SQLiteOpenHelper {
         } catch (Exception e) {
             return "Unknown Version Name";
         }
+    }
+
+    public static String getApplicationName(Context context) {
+        ApplicationInfo applicationInfo = context.getApplicationInfo();
+        int stringId = applicationInfo.labelRes;
+        return stringId == 0 ? applicationInfo.nonLocalizedLabel.toString() : context.getString(stringId);
     }
 }
