@@ -13,6 +13,17 @@ Easy right!.
 
 ### One-step install
 
+Add it in your root build.gradle at the end of repositories:
+```gradle
+allprojects {
+		repositories {
+			...
+			maven { url 'https://www.jitpack.io' }
+		}
+	}
+```
+
+
 Add the following dependency to your build.gradle:
 ```gradle
 dependencies {
