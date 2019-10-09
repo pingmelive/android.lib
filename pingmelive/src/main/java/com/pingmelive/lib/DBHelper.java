@@ -1,4 +1,4 @@
-package com.pingmelive;
+package com.pingmelive.lib;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -12,6 +12,8 @@ import android.os.Build;
 import android.text.format.DateFormat;
 import android.util.Log;
 
+
+import com.pingmelive.BuildConfig;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -261,7 +263,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public  String getMessage(String message)
     {
-        return "Version - "+getVersionName(context)+"("+BuildConfig.VERSION_CODE+")\n"+message;
+        return "Version - "+getVersionName(context)+"("+ BuildConfig.VERSION_CODE+")\n"+message;
     }
 
     public String getDetailedText(String text)

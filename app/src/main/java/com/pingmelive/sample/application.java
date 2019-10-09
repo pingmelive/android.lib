@@ -1,6 +1,8 @@
-package com.pingmelive;
+package com.pingmelive.sample;
 
 import android.app.Application;
+
+import com.pingmelive.lib.pingMeLive;
 
 public class application extends Application {
 

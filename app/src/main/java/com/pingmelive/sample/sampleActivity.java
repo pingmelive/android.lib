@@ -1,4 +1,4 @@
-package com.pingmelive;
+package com.pingmelive.sample;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,16 +7,18 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.pingmelive.lib.pingMeLive;
+
 public class sampleActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sample);
+        setContentView(com.pingmelive.sample.R.layout.activity_sample);
 
         String userID = "userabc";
 
-        Button forceStop = findViewById(R.id.forceStop);
+        Button forceStop = findViewById(com.pingmelive.sample.R.id.forceStop);
         forceStop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -26,7 +28,7 @@ public class sampleActivity extends AppCompatActivity {
             }
         });
 
-        Button simpleEvent = findViewById(R.id.simpleEvent);
+        Button simpleEvent = findViewById(com.pingmelive.sample.R.id.simpleEvent);
         simpleEvent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -38,7 +40,7 @@ public class sampleActivity extends AppCompatActivity {
             }
         });
 
-        Button detailedEvent = findViewById(R.id.detailedEvent);
+        Button detailedEvent = findViewById(com.pingmelive.sample.R.id.detailedEvent);
         detailedEvent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

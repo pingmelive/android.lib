@@ -1,36 +1,17 @@
-package com.pingmelive;
+package com.pingmelive.lib;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
-import android.os.Build;
-import android.os.Bundle;
 
-import android.os.Handler;
 import android.util.Log;
-import android.view.LayoutInflater;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.io.PrintWriter;
-import java.io.Serializable;
 import java.io.StringWriter;
-import java.lang.ref.WeakReference;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayDeque;
 import java.util.Date;
-import java.util.Deque;
-import java.util.List;
-import java.util.Locale;
 
 
 public final class pingMeLive {
@@ -38,7 +19,7 @@ public final class pingMeLive {
     private final static String TAG = "pingMeLive";
 
     //General constants
-    private static final String CAOC_HANDLER_PACKAGE_NAME = "com.pingmelive.pingMeLive";
+    private static final String CAOC_HANDLER_PACKAGE_NAME = "com.pingmelive.lib.pingMeLive";
     private static final String DEFAULT_HANDLER_PACKAGE_NAME = "com.android.internal.os";
 
     private static final String SHARED_PREFERENCES_FIELD_TIMESTAMP = "LAST_CRASH_TIME_STAMP";
@@ -86,7 +67,7 @@ public final class pingMeLive {
                     }
 
                     dbHelper = DBHelper.getInstance(context);
-                    pingMePref = com.pingmelive.pingMePref.getInstance(context);
+                    pingMePref = com.pingmelive.lib.pingMePref.getInstance(context);
 
                     pingMePref.setAPIKey(API_KEY);
                     pingMePref.setAppId(PROJECT_ID);
@@ -160,7 +141,7 @@ public final class pingMeLive {
             Log.i(TAG, "pingMeLive has been installed, But without error events, to activate that setErrorEventEnabled(true) in your application class.");
 
             dbHelper = DBHelper.getInstance(context);
-            pingMePref = com.pingmelive.pingMePref.getInstance(context);
+            pingMePref = com.pingmelive.lib.pingMePref.getInstance(context);
 
             pingMePref.setAPIKey(API_KEY);
             pingMePref.setAppId(PROJECT_ID);

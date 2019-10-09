@@ -1,4 +1,4 @@
-package com.pingmelive;
+package com.pingmelive.lib;
 
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -21,6 +21,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -50,7 +51,7 @@ public class sendLogToServer extends Service {
 
 
         dbHelper = DBHelper.getInstance(getApplicationContext());
-        pingMePref = com.pingmelive.pingMePref.getInstance(getApplicationContext());
+        pingMePref = com.pingmelive.lib.pingMePref.getInstance(getApplicationContext());
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             startForeground(("localtoServerSync".hashCode()),getServiceNotification());

@@ -2,8 +2,6 @@ apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 29
-
-
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 29
@@ -19,8 +17,8 @@ android {
 
 
         // ValidateTor Library Info
-        libVersionCode = 6
-        libVersionName = '3.0.3'
+        libVersionCode = 7
+        libVersionName = '3.0.4'
     }
 
 
