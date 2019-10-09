@@ -284,16 +284,16 @@ public class DBHelper extends SQLiteOpenHelper {
             PackageInfo packageInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
             return packageInfo.versionName;
         } catch (Exception e) {
-            return "Unknown Code";
+            return "Unknown Version Name";
         }
     }
 
     private String getVersionCode(Context context) {
         try {
             PackageInfo packageInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
-            return packageInfo.versionName;
+            return ""+packageInfo.versionCode;
         } catch (Exception e) {
-            return "Unknown Version Name";
+            return "Unknown Version Code";
         }
     }
 
