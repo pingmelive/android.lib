@@ -16,18 +16,17 @@ Easy right!.
 Add it in your root build.gradle at the end of repositories:
 ```gradle
 allprojects {
-		repositories {
-			...
-			maven { url 'https://www.jitpack.io' }
-		}
+	repositories {
+		maven { url 'https://www.jitpack.io' }
 	}
+}
 ```
 
 
 Add the following dependency to your build.gradle:
 ```gradle
 dependencies {
-      implementation 'com.github.pingmelive:android.lib:1.0.8'
+      implementation 'com.github.pingmelive:android.lib:1.0.13'
 }
 ```
 
