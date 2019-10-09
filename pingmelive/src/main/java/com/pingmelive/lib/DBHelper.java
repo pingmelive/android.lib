@@ -13,7 +13,6 @@ import android.text.format.DateFormat;
 import android.util.Log;
 
 
-import com.pingmelive.BuildConfig;
 
 import org.json.JSONException;
 import org.json.JSONObject;
