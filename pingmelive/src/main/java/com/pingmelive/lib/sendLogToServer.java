@@ -53,6 +53,22 @@ public class sendLogToServer extends Service {
         dbHelper = DBHelper.getInstance(getApplicationContext());
         pingMePref = com.pingmelive.lib.pingMePref.getInstance(getApplicationContext());
 
+        if(pingMePref.getAPIKey()==null)
+        {
+            pingMePref.log("PingMeLive not installed");
+            pingMePref.log("API KEY Not Found, Check your application class for a valid API KEY!");
+            stopSelf();
+            return;
+        }
+
+        if(pingMePref.getAppId()==null)
+        {
+            pingMePref.log("PingMeLive not installed");
+            pingMePref.log("APP ID Not Found, Check your application class for a valid APP ID!");
+            stopSelf();
+            return;
+        }
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             startForeground(("localtoServerSync".hashCode()),getServiceNotification());
         }
