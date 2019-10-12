@@ -112,6 +112,7 @@ public final class pingMeLive {
 
                                 killCurrentProcess();
 
+
                             }
                         });
                     }

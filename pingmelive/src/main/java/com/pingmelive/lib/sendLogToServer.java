@@ -32,7 +32,6 @@ import java.util.Map;
 
 public class sendLogToServer extends Service {
 
-
     ArrayList<pingModel> list;
     DBHelper dbHelper;
     pingMePref pingMePref;
@@ -76,12 +75,14 @@ public class sendLogToServer extends Service {
             list = dbHelper.getPendingEvents();
             if(list.size()>0)
             {
+                Log.e("pingMeLive","Sending "+list.size()+" pings");
                 for(int i = 0 ; i < list.size() ; i++) {
                     sync_local_to_server(list.get(i));
                 }
             }
             else
             {
+                Log.e("pingMeLive","No pings to send");
                 sendBroadcast(new Intent("update_sync_time"));
             }
 
@@ -103,7 +104,7 @@ public class sendLogToServer extends Service {
                 public void onResponse(String response) {
 
                     //Log.e("API Response",""+response);
-                    //Log.e("Data","Sent to server");
+                    Log.e("Data","Sent to server - "+pingModel.getGroupTitle());
                     dbHelper.removeEvent(pingModel.getId());
 
                 }

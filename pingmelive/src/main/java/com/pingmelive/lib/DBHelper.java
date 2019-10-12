@@ -182,7 +182,6 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public void sendData()
     {
-        Log.e("pingMeLive","Sending error log to server (if any)");
         startSerivceNEW(new Intent(context,sendLogToServer.class));
     }
 
@@ -204,8 +203,8 @@ public class DBHelper extends SQLiteOpenHelper {
             device_info.put("Device Model",""+Build.MODEL);
             device_info.put("Android Version",""+ Build.VERSION.RELEASE);
             device_info.put("Android Version Code",""+Build.VERSION.SDK_INT);
-            device_info.put("App Version Code",getVersionCode(context));
-            device_info.put("App Version Name",getVersionName(context));
+            device_info.put("App Version Code",""+getVersionCode(context));
+            device_info.put("App Version Name",""+getVersionName(context));
         }
         catch (Exception e)
         {
@@ -263,14 +262,14 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public  String getMessage(String message)
     {
-        return "Version - "+getVersionName(context)+"( "+ getVersionCode(context)+" )\n"+message;
+        return "Version - "+getVersionName(context)+" ("+ getVersionCode(context)+")\n"+message;
     }
 
     public String getDetailedText(String text)
     {
         try {
             JSONObject jsonObject = getDeviceInfo();
-            jsonObject.put("errorSummary",text);
+            jsonObject.put("Details",text);
             return  jsonObject.toString();
         } catch (JSONException e) {
             e.printStackTrace();
