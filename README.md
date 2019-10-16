@@ -1,6 +1,6 @@
 # What is PingMeLive?
 
-This is a library which helps you to get LIVE notifications of actions taking place on your webistes and applications.
+This is a library which helps you to get LIVE notifications of actions taking place on your websites and applications.
 Just Copy past the below codes and get live updates of errors and actions. Make Categories of pings based on projects (etc) and assign it to your team mates.
 That's what PingMeLive does.
 Easy right!.
